@@ -1,0 +1,32 @@
+# docker compose up --build  →  http://localhost:8787
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: kernelcraft
+      POSTGRES_PASSWORD: kernelcraft
+      POSTGRES_DB: kernelcraft
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kernelcraft"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  app:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://kernelcraft:kernelcraft@db:5432/kernelcraft
+      CORS_ORIGIN: http://localhost:8787
+      # Optional: rephrase assistant answers with a local model, e.g. Ollama on the host
+      # LLM_BASE_URL: http://host.docker.internal:11434/v1
+      # LLM_MODEL: llama3.1
+    ports:
+      - "8787:8787"
+
+volumes:
+  pgdata:
