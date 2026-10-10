@@ -1,0 +1,28 @@
+{
+  "name": "kernelcraft",
+  "private": true,
+  "version": "0.1.0",
+  "description": "An interactive operating-system laboratory: a deterministic kernel simulator with scheduling, virtual memory, synchronization, replay and an evidence-based assistant.",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @kernelcraft/web",
+    "dev:api": "npm run dev -w @kernelcraft/api",
+    "build": "npm run build -w @kernelcraft/web && npm run build -w @kernelcraft/api",
+    "test": "npm test -w @kernelcraft/engine && npm test -w @kernelcraft/api",
+    "test:engine": "npm test -w @kernelcraft/engine",
+    "test:api": "npm test -w @kernelcraft/api",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test:e2e": "playwright test",
+    "build:demo": "npm run build:single -w @kernelcraft/web"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.56.0"
+  }
+}
