@@ -1,0 +1,16 @@
+# Lower number = higher priority. Try inherit=true.
+config scheduler=priority preempt=true inherit=false
+mutex bus
+
+process meteo priority=9       # low: holds the bus
+  lock bus
+  compute 5
+  unlock bus
+
+process control priority=1 arrive=1   # high: needs the bus
+  lock bus
+  compute 2
+  unlock bus
+
+process comms priority=5 arrive=2     # medium: CPU-bound
+  compute 14

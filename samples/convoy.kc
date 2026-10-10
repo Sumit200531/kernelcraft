@@ -1,0 +1,11 @@
+# The textbook convoy: try scheduler=sjf, srtf or rr quantum=4.
+config scheduler=fcfs
+
+process render
+  compute 24
+process ping
+  compute 3
+process pong
+  compute 3
+process tick
+  compute 2

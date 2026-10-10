@@ -1,0 +1,31 @@
+# Working sets: 3 × 5 pages = 15 pages, but frames=8.
+# Try frames=16, or a different replacement policy.
+config scheduler=rr quantum=3 frames=8 replacement=lru fault=8 tlb=2
+
+process alpha pages=8
+  repeat 4
+    load 0x000
+    load 0x100
+    load 0x200
+    load 0x300
+    load 0x400
+    compute 1
+  end
+process beta pages=8
+  repeat 4
+    load 0x000
+    load 0x100
+    load 0x200
+    load 0x300
+    load 0x400
+    compute 1
+  end
+process gamma pages=8
+  repeat 4
+    load 0x000
+    load 0x100
+    load 0x200
+    load 0x300
+    load 0x400
+    compute 1
+  end

@@ -1,0 +1,25 @@
+# Try aging=4.
+config scheduler=priority preempt=true aging=0 starve=20
+
+process backup priority=9
+  compute 4
+process req0 priority=2
+  compute 5
+process req1 priority=2 arrive=4
+  compute 5
+process req2 priority=2 arrive=9
+  compute 5
+process req3 priority=2 arrive=14
+  compute 5
+process req4 priority=2 arrive=19
+  compute 5
+process req5 priority=2 arrive=24
+  compute 5
+process req6 priority=2 arrive=29
+  compute 5
+process req7 priority=2 arrive=34
+  compute 5
+process req8 priority=2 arrive=39
+  compute 5
+process req9 priority=2 arrive=44
+  compute 5

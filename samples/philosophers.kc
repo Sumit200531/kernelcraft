@@ -1,0 +1,40 @@
+# Fix: let one philosopher pick up the right fork first (break the circular wait).
+config scheduler=rr quantum=1
+mutex f0 f1 f2 f3 f4
+
+process table
+  thread p0
+    lock f0
+    compute 1
+    lock f1
+    compute 2
+    unlock f1
+    unlock f0
+  thread p1
+    lock f1
+    compute 1
+    lock f2
+    compute 2
+    unlock f2
+    unlock f1
+  thread p2
+    lock f2
+    compute 1
+    lock f3
+    compute 2
+    unlock f3
+    unlock f2
+  thread p3
+    lock f3
+    compute 1
+    lock f4
+    compute 2
+    unlock f4
+    unlock f3
+  thread p4
+    lock f4
+    compute 1
+    lock f0
+    compute 2
+    unlock f0
+    unlock f4

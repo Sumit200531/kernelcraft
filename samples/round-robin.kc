@@ -1,0 +1,11 @@
+# Context switches cost 2 ticks here. Watch the grey switch bars on the timeline.
+config scheduler=rr quantum=2 cs=2
+
+process A
+  compute 12
+process B
+  compute 12
+process C
+  compute 8
+process D arrive=4
+  compute 6

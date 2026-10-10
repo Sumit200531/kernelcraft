@@ -1,0 +1,14 @@
+# Expected: counter = 80. Run it and see what you actually get.
+# Fix it with a mutex (lock m / unlock m around inc) or with atomic_inc.
+config scheduler=rr quantum=2
+shared counter=0
+
+process bank
+  thread teller1
+    repeat 40
+      inc counter
+    end
+  thread teller2
+    repeat 40
+      inc counter
+    end

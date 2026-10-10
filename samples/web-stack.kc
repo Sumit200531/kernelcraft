@@ -1,0 +1,44 @@
+# A small web stack: request handling, a memory-hungry indexer and a logger.
+config cores=2 scheduler=rr quantum=4 cs=1 frames=8 replacement=lru tlb=4 fault=6
+mutex logLock
+shared requests=0
+
+process server priority=2 pages=6
+  thread accept
+    repeat 4
+      load 0x000          # socket buffers
+      compute 2
+      syscall io 5        # wait for the network
+      lock logLock
+      inc requests
+      unlock logLock
+    end
+  thread worker arrive=3
+    repeat 4
+      load 0x200
+      store 0x240
+      compute 3
+      lock logLock
+      inc requests
+      unlock logLock
+    end
+
+process indexer priority=5 pages=8 arrive=1
+  repeat 3
+    load 0x000
+    load 0x100
+    load 0x200
+    load 0x300
+    load 0x400
+    store 0x500
+    load 0x700
+    compute 4
+  end
+
+process logger priority=4 arrive=6
+  repeat 3
+    lock logLock
+    compute 2
+    unlock logLock
+    syscall io 6
+  end

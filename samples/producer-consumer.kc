@@ -1,0 +1,24 @@
+# Bounded buffer: empty counts free slots, full counts items.
+config scheduler=rr quantum=2
+mutex buf
+sem empty=2 full=0
+
+process producer
+  repeat 5
+    compute 1          # make an item
+    wait empty
+    lock buf
+    compute 1          # put it in the buffer
+    unlock buf
+    signal full
+  end
+
+process consumer
+  repeat 5
+    wait full
+    lock buf
+    compute 1          # take an item
+    unlock buf
+    compute 2          # use it
+    # BUG: should be `signal empty`
+  end

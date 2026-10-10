@@ -1,0 +1,15 @@
+# pages=4 with pagesize=256 means valid addresses are 0x000-0x3ff.
+config scheduler=rr quantum=3 frames=6 pagesize=256
+
+process parser pages=4
+  load 0x000
+  load 0x100
+  load 0x200
+  load 0x300
+  load 0x500        # past the end
+  compute 4
+
+process shell
+  compute 3
+  syscall io 4
+  compute 3

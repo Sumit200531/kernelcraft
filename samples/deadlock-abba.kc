@@ -1,0 +1,19 @@
+# transfer() locks accounts in argument order: a→b in one thread, b→a in the other.
+config scheduler=rr quantum=1
+mutex acctA acctB
+
+process transfer1
+  lock acctA
+  compute 2
+  lock acctB        # waits for transfer2
+  compute 1
+  unlock acctB
+  unlock acctA
+
+process transfer2
+  lock acctB
+  compute 2
+  lock acctA        # waits for transfer1: cycle
+  compute 1
+  unlock acctA
+  unlock acctB
